@@ -60,6 +60,10 @@ fn login(u string, p string) (string) {
         }
 }
 
+fn cmdhandle() (string) {
+
+}
+
 fn motd() (string) {
 	mut motd_b := '$Red      ╔═════════════════════════════════════════════════════════════════╗\r\n'
 	motd_b += '      ║    $Cyan [MOTD]: $Red                                                    ║\r\n'
