@@ -1,6 +1,13 @@
 import net
 import net.http
 
+/*
+@title: CNC
+@creator: eZy
+@since: 2/8/21
+@language: V
+*/
+
 const (
 	Red = '\x1b[31m'
 	Yellow = '\x1b[33m'
