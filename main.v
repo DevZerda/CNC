@@ -37,8 +37,6 @@ pub fn main() {
                 conn.wait_for_read() ?
                 data := conn.read_line()
                 if data.contains('geo') {
-                    arg := data.split('\n')
-                    response := http.get('https://scrapy.tech/tools/?action=geoip&q=' + arg[1]) ?
                     conn.write_str(response.text + '\r\n$hostname ') ?
 				} else if data.contains('scan') {
 					
@@ -51,18 +49,72 @@ pub fn main() {
 }
 
 fn login(u string, p string) (string) {
-        if u == 'Jeff' && p == 'test123' {
-                mottd := motd()
-                bnnr := banner()
-                return '$mottd $bnnr\r\nsuccessfully loggedin. Welcome: $u \r\n'
-        } else {
-                return 'wrong info'
+	get_user := 
+    if u == 'Jeff' && p == 'test123' {
+            mottd := motd()
+            bnnr := banner()
+            return '$mottd $bnnr\r\nsuccessfully loggedin. Welcome: $u \r\n'
+    } else {
+            return 'wrong info'
+    }
+}
+///////////////////////
+//FUNCTIONS FOR TOOLS
+///////////////////////
+
+fn GeoIP(ip string) (string) {
+	geo_response := http.get('https://CodeTheWorld.xyz/tools/?action=geoip&q=' + ip) or {
+		println('Failed to get geo')
+	}
+
+	return geo_response
+}
+
+////////////////////
+//CRUD SECTION
+////////////////////
+
+fn get_user(usr string) (string, string, string, string, string, string) {
+
+        mut db_check := false
+        mut db_usr := ''
+        mut db_ip := ''
+        mut db_pw := ''
+        mut db_level := ''
+        mut db_maxtime := ''
+        mut db_admin := ''
+
+        //Grab User from DB!
+
+        read_db := os.read_lines('users.db') or {
+                return 'failed', 'failed', 'failed', 'failed', 'failed', 'failed'
         }
+        for ussr in read_db {
+                if ussr.contains('(\'' + usr + '\',\'') {
+                        fix := ussr.replace('(\'', '')
+                        fix2 := fix.replace('\')', '')
+                        info := fix2.split('\',\'')
+                        db_check = true
+                        db_usr = info[0]
+                        db_ip = info[1]
+                        db_pw = info[2]
+                        db_level = info[3]
+                        db_maxtime = info[4]
+                        db_admin = info[5]
+                }
+        }
+
+        return db_usr, db_ip, db_pw, db_level, db_maxtime, db_admin
 }
 
-fn cmdhandle() (string) {
+fn log_session() string {
+	w_db := open('db/users.db')
 
 }
+
+////////////////////
+//BANNERS
+////////////////////
 
 fn motd() (string) {
 	mut motd_b := '$Red      ╔═════════════════════════════════════════════════════════════════╗\r\n'
